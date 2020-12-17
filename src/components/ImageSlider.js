@@ -1,10 +1,11 @@
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { gsap, TweenLite, Power3 } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 import './ImageSlider.css';
 
+// Helper function to implement ref for <ul> containing images
 function useClientRect() {
   const [rect, setRect] = useState(null);
   const ref = useCallback((node) => {
@@ -16,8 +17,18 @@ function useClientRect() {
   return [rect, ref];
 }
 
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height,
+  };
+}
+
 export default function ImageSlider() {
   const [rect, ref] = useClientRect();
+  const [dimensions, setDimensions] = useState(getWindowDimensions());
+  console.log(dimensions);
 
   const [state, setState] = useState({
     isActive1: true,
@@ -26,8 +37,12 @@ export default function ImageSlider() {
     isActive4: false,
   });
 
-  console.log('client state', state);
-  const imageWidth = 590;
+  let imageWidth;
+  if (dimensions.width >= 590) {
+    imageWidth = 590;
+  } else if (dimensions.width < 590) {
+    imageWidth = dimensions.width;
+  }
 
   useEffect(() => {
     gsap.registerPlugin(Draggable, TweenLite);
@@ -37,42 +52,11 @@ export default function ImageSlider() {
       console.log(rect[1].id === 'active');
       console.log(rect[2].id === 'active');
       console.log(rect[3].id === 'active');
+      // setDimensions(getWindowDimensions());
     }
-
-    // let startX;
-    // let globalDirection;
-
-    // Draggable.create('.list-item', {
-    //   trigger: '#product-image',
-    //   type: 'x',
-    //   onPress: function () {
-    //     //record the starting values so we can compare them later...
-    //     startX = this.x;
-    //     console.log(startX);
-    //   },
-    //   onDrag: function () {
-    //     let currentX = this.x,
-    //       direction = [];
-    //     if (currentX > startX) {
-    //       // direction.push('right');
-    //       globalDirection = direction[0] = 'right';
-    //     } else if (currentX < startX) {
-    //       // direction.push('left');
-    //       globalDirection = direction[0] = 'left';
-    //     }
-    //     // console.log(direction);
-    //   },
-    //   onDragEnd: function () {
-    //     if (globalDirection === 'right') {
-    //       prevSlide();
-    //     } else if (globalDirection === 'left') {
-    //       nextSlide();
-    //     }
-    //   },
-    // });
   }, [rect]);
 
-  //Image transition
+  //Image transition functions
   const slideLeft = (index, duration, multiplied = 1) => {
     TweenLite.to(rect[index], duration, {
       x: -imageWidth * multiplied,
@@ -99,7 +83,6 @@ export default function ImageSlider() {
       //Image transition
       slideLeft(0, 1);
       slideLeft(1, 1);
-
       slideLeft(2, 1);
       slideLeft(2, 0);
       slideLeft(3, 1);
@@ -123,12 +106,11 @@ export default function ImageSlider() {
       console.log('3', state);
     } else if (rect[3].id === 'active') {
       setState({ isActive1: true, isActive4: false });
+      // Image transition
       slideRight(3, 0, 3);
       slideLeft(0, 1, 0);
       slideLeft(1, 0, 0);
       slideLeft(2, 0, 0);
-
-      console.log('4', state);
     }
   };
 
@@ -136,7 +118,6 @@ export default function ImageSlider() {
     if (rect[0].id === 'active') {
       setState({ isActive1: false, isActive4: true });
       //Image transition
-
       slideLeft(3, 0, 4);
       slideLeft(3, 1, 3);
       slideLeft(2, 0, 3);
@@ -147,11 +128,8 @@ export default function ImageSlider() {
       //Image transition
       slideLeft(1, 0, 2);
       slideRight(0, 1, 0);
-
       slideRight(2, 1, 1);
       slideRight(3, 1, 1);
-
-      console.log('1', state);
     } else if (rect[2].id === 'active') {
       setState({ isActive2: true, isActive3: false });
       slideLeft(2, 1);
@@ -165,8 +143,6 @@ export default function ImageSlider() {
       slideLeft(1, 0, 0);
       slideLeft(1, 1, 0);
       slideLeft(0, 0, 0);
-
-      console.log('1', state);
     }
   };
 
@@ -211,13 +187,10 @@ export default function ImageSlider() {
                 let currentX = this.x,
                   direction = [];
                 if (currentX > startX) {
-                  // direction.push('right');
                   globalDirection = direction[0] = 'right';
                 } else if (currentX < startX) {
-                  // direction.push('left');
                   globalDirection = direction[0] = 'left';
                 }
-                // console.log(direction);
               },
               onDragEnd: function () {
                 if (globalDirection === 'right') {

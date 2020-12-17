@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
+import React from 'react';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 // import { BrowserRouter, Route, Router } from 'react-router-dom';
@@ -15,7 +15,6 @@ function App() {
       <ApolloProvider client={client}>
         <div>
           <main>
-            {/* <ColorSlides></ColorSlides> */}
             <ImageSlider></ImageSlider>
           </main>
         </div>

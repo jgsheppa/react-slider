@@ -2,6 +2,9 @@ import react, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 
+// This is a component that I used to test out and learn more about
+// the Draggable.create function
+
 const divStyles = {
   width: '200px',
   backgroundColor: 'red',
@@ -23,7 +26,6 @@ export default function ColorSlides() {
         console.log('clicked');
       },
       onPress: function () {
-        //record the starting values so we can compare them later...
         startX = this.x;
       },
       onDrag: function () {
@@ -38,8 +40,6 @@ export default function ColorSlides() {
       },
     });
   }, [imageList]);
-
-  // const proxy = document.createElement('div');
 
   let startX;
 
