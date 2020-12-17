@@ -13,41 +13,6 @@ main {
   position: relative;
 }
 
-.arrow-button-left {
-  border-radius: 0;
-  border: solid 0.5px;
-  box-shadow: none;
-  position: absolute;
-  display: flex;
-  width: 100px;
-  height: 100px;
-  align-items: center;
-  justify-content: center;
-  bottom: 0;
-  top: 0;
-  cursor: pointer;
-  transition: 0.3s ease-in-out;
-  margin-top: 595px;
-}
-
-.arrow-button-right {
-  border-radius: 0;
-  border: solid 0.5px;
-  box-shadow: none;
-  position: absolute;
-  display: flex;
-  width: 100px;
-  height: 100px;
-  align-items: center;
-  justify-content: center;
-  bottom: 0;
-  top: 0;
-  cursor: pointer;
-  transition: 0.3s ease-in-out;
-  margin-left: 100px;
-  margin-top: 595px;
-}
-
 .image-inner {
   display: flex;
   flex-direction: row;
@@ -84,6 +49,7 @@ ul {
   width: 590px;
   list-style-type: none;
   padding: 0;
+  background-color: black;
 }
 li {
   height: 680px;
