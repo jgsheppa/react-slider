@@ -1,6 +1,11 @@
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useState,
+  useCallback,
+} from 'react';
 import { gsap, TweenLite, Power3 } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 import './ImageSlider.css';
@@ -26,35 +31,41 @@ export default function ImageSlider() {
     isActive4: false,
   });
 
-  const [viewPortWidth, setViewPortWidth] = useState(
-    window.visualViewport.width > 590 ? 590 : window.visualViewport.width,
-  );
-  console.log('width', viewPortWidth);
-  const maxWidth = 590;
+  const [viewPort, setViewPort] = useState(590);
+
+  const [size, setSize] = useState([0, 0]);
+
+  // Update dimensions on image on resize
+  useLayoutEffect(() => {
+    function updateSize() {
+      setSize([window.innerWidth, window.innerHeight]);
+    }
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
 
   useEffect(() => {
     gsap.registerPlugin(Draggable, TweenLite);
 
-    window.addEventListener('resize', () => {
-      if (window.visualViewport.width >= 590) {
-        setViewPortWidth(maxWidth);
-      } else if (window.visualViewport.width < 590) {
-        setViewPortWidth(window.visualViewport.width);
-      }
-    });
-  }, [rect, viewPortWidth]);
+    if (window.visualViewport.width >= 590) {
+      setViewPort(590);
+    } else if (window.visualViewport.width < 590) {
+      setViewPort(size);
+    }
+  }, [rect, size]);
 
   //Image transition functions
   const slideLeft = (index, duration, multiplied = 1) => {
     TweenLite.to(rect[index], duration, {
-      x: -viewPortWidth * multiplied,
+      x: -viewPort * multiplied,
       ease: Power3.easeOut,
     });
   };
 
   const slideRight = (index, duration, multiplied = 1) => {
     TweenLite.to(rect[index], duration, {
-      x: viewPortWidth * multiplied,
+      x: viewPort * multiplied,
       ease: Power3.easeOut,
     });
   };
@@ -83,7 +94,6 @@ export default function ImageSlider() {
       slideLeft(2, 1, 2);
       slideLeft(3, 1, 2);
       slideLeft(3, 0, 2);
-      console.log('2', state);
     } else if (rect[2].id === 'active') {
       setState({ isActive4: true, isActive3: false });
       //Image transition
@@ -91,7 +101,6 @@ export default function ImageSlider() {
       slideLeft(2, 1, 3);
       slideLeft(3, 1, 3);
       slideRight(0, 0, 1);
-      console.log('3', state);
     } else if (rect[3].id === 'active') {
       setState({ isActive1: true, isActive4: false });
       // Image transition
@@ -154,8 +163,6 @@ export default function ImageSlider() {
           `}
         >
           {(data, error) => {
-            console.log('data', data);
-
             if (!data.data) {
               return <h1>Loading...</h1>;
             }
@@ -169,7 +176,6 @@ export default function ImageSlider() {
               onPress: function () {
                 //record the starting values so we can compare them later...
                 startX = this.x;
-                console.log(startX);
               },
               onDrag: function () {
                 let currentX = this.x,

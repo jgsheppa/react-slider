@@ -22,15 +22,9 @@ main {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  height: 800px;
 }
 
-img {
-  height: 680px;
-  width: 590px;
-}
-
-li img {
+#product-image {
   height: 680px;
   width: 590px;
 }
@@ -43,15 +37,18 @@ ul {
   width: 590px;
   list-style-type: none;
   padding: 0;
-  background-color: black;
+  /* background-color: black; */
 }
 li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 680px;
   width: 590px;
 }
 
 /* Portrait for iPhone 5/SE: */
-@media only screen and (max-width: 320px) {
+@media only screen and (width: 320px) {
   main {
     display: flex;
     justify-content: center;
@@ -75,13 +72,8 @@ li {
     width: 320px;
   }
 
-  img {
-    height: 568px;
-    width: 320px;
-  }
-
-  li img {
-    height: 568px;
+  #product-image {
+    height: auto;
     width: 320px;
   }
 
@@ -93,68 +85,18 @@ li {
     width: 320px;
     list-style-type: none;
     padding: 0;
-    background-color: black;
   }
   li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 568px;
     width: 320px;
-  }
-}
-
-/* Landscape for iPhone 5/SE: */
-@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
-  main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* position: relative; */
-  }
-
-  .image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 320px;
-    width: 568px;
-  }
-
-  .image-inner {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: 320px;
-    width: 568px;
-  }
-
-  img {
-    height: 320px;
-    width: 568px;
-  }
-
-  li img {
-    height: 320px;
-    width: 568px;
-  }
-
-  ul {
-    display: flex;
-    position: absolute;
-    overflow: hidden;
-    height: 320px;
-    width: 568px;
-    list-style-type: none;
-    padding: 0;
-    background-color: black;
-  }
-  li {
-    height: 320px;
-    width: 568px;
   }
 }
 
 /* Portrait for iPhone 6/7/8 Plus: */
-@media only screen and (max-width: 414px) {
+@media only screen and (width: 414px) {
   main {
     display: flex;
     justify-content: center;
@@ -178,13 +120,8 @@ li {
     width: 414px;
   }
 
-  img {
-    height: 736px;
-    width: 414px;
-  }
-
-  li img {
-    height: 736px;
+  #product-image {
+    height: auto;
     width: 414px;
   }
 
@@ -196,16 +133,18 @@ li {
     width: 414px;
     list-style-type: none;
     padding: 0;
-    /* background-color: black; */
   }
   li {
-    height: 736px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
     width: 414px;
   }
 }
 
 /* Portrait for iPhone X: */
-@media only screen and (max-width: 375px) {
+@media only screen and (width: 375px) {
   main {
     display: flex;
     justify-content: center;
@@ -229,8 +168,8 @@ li {
     width: 375px;
   }
 
-  img {
-    height: 812px;
+  #product-image {
+    height: auto;
     width: 375px;
   }
 
@@ -242,16 +181,18 @@ li {
     width: 375px;
     list-style-type: none;
     padding: 0;
-    background-color: black;
   }
   li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 812px;
     width: 375px;
   }
 }
 
 /* Portrait for Pixel 2 XL: */
-@media only screen and (max-width: 411px) {
+@media only screen and (width: 411px) {
   main {
     display: flex;
     justify-content: center;
@@ -275,9 +216,9 @@ li {
     width: 411px;
   }
 
-  img {
+  #product-image {
     height: auto;
-    width: 100%;
+    width: 411px;
   }
 
   ul {
@@ -288,10 +229,61 @@ li {
     width: 411px;
     list-style-type: none;
     padding: 0;
-    background-color: black;
   }
   li {
-    height: 731px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
     width: 411px;
+  }
+}
+
+/* Portrait for Galaxy S5: */
+@media only screen and (width: 360px) {
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 640px;
+    width: 360px;
+  }
+
+  .image-inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 640px;
+    width: 360px;
+  }
+
+  #product-image {
+    height: auto;
+    width: 360px;
+  }
+
+  ul {
+    display: flex;
+    position: absolute;
+    overflow: hidden;
+    height: auto;
+    width: 360px;
+    list-style-type: none;
+    padding: 0;
+  }
+  li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: 360px;
+    background-color: black;
   }
 }

@@ -9,8 +9,6 @@ const client = new ApolloClient({
   uri: 'http://sheppardimageslider.eu/graphql',
 });
 
-console.log(client);
-
 function App() {
   return (
     <div className="App">
