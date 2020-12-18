@@ -26,31 +26,35 @@ export default function ImageSlider() {
     isActive4: false,
   });
 
-  const [dimensions, setDimensions] = useState(window.visualViewport.width);
+  const [viewPortWidth, setViewPortWidth] = useState(
+    window.visualViewport.width > 590 ? 590 : window.visualViewport.width,
+  );
+  console.log('width', viewPortWidth);
+  const maxWidth = 590;
 
   useEffect(() => {
     gsap.registerPlugin(Draggable, TweenLite);
 
     window.addEventListener('resize', () => {
       if (window.visualViewport.width >= 590) {
-        setDimensions(590);
+        setViewPortWidth(maxWidth);
       } else if (window.visualViewport.width < 590) {
-        setDimensions(window.visualViewport.width);
+        setViewPortWidth(window.visualViewport.width);
       }
     });
-  }, [rect, dimensions]);
+  }, [rect, viewPortWidth]);
 
   //Image transition functions
   const slideLeft = (index, duration, multiplied = 1) => {
     TweenLite.to(rect[index], duration, {
-      x: -dimensions * multiplied,
+      x: -viewPortWidth * multiplied,
       ease: Power3.easeOut,
     });
   };
 
   const slideRight = (index, duration, multiplied = 1) => {
     TweenLite.to(rect[index], duration, {
-      x: dimensions * multiplied,
+      x: viewPortWidth * multiplied,
       ease: Power3.easeOut,
     });
   };
