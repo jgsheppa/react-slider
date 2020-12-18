@@ -11,24 +11,13 @@ function useClientRect() {
   const ref = useCallback((node) => {
     if (node !== null) {
       setRect(node.children);
-      console.log('node', node.children);
     }
   }, []);
   return [rect, ref];
 }
 
-function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
-  return {
-    width,
-    height,
-  };
-}
-
 export default function ImageSlider() {
   const [rect, ref] = useClientRect();
-  const [dimensions, setDimensions] = useState(getWindowDimensions());
-  console.log(dimensions);
 
   const [state, setState] = useState({
     isActive1: true,
@@ -37,36 +26,31 @@ export default function ImageSlider() {
     isActive4: false,
   });
 
-  let imageWidth;
-  if (dimensions.width >= 590) {
-    imageWidth = 590;
-  } else if (dimensions.width < 590) {
-    imageWidth = dimensions.width;
-  }
+  const [dimensions, setDimensions] = useState(window.visualViewport.width);
 
   useEffect(() => {
     gsap.registerPlugin(Draggable, TweenLite);
 
-    if (rect) {
-      console.log(rect[0].id === 'active');
-      console.log(rect[1].id === 'active');
-      console.log(rect[2].id === 'active');
-      console.log(rect[3].id === 'active');
-      // setDimensions(getWindowDimensions());
-    }
-  }, [rect]);
+    window.addEventListener('resize', () => {
+      if (window.visualViewport.width >= 590) {
+        setDimensions(590);
+      } else if (window.visualViewport.width < 590) {
+        setDimensions(window.visualViewport.width);
+      }
+    });
+  }, [rect, dimensions]);
 
   //Image transition functions
   const slideLeft = (index, duration, multiplied = 1) => {
     TweenLite.to(rect[index], duration, {
-      x: -imageWidth * multiplied,
+      x: -dimensions * multiplied,
       ease: Power3.easeOut,
     });
   };
 
   const slideRight = (index, duration, multiplied = 1) => {
     TweenLite.to(rect[index], duration, {
-      x: imageWidth * multiplied,
+      x: dimensions * multiplied,
       ease: Power3.easeOut,
     });
   };

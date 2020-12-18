@@ -3,7 +3,6 @@ main {
   justify-content: center;
   align-items: center;
   position: relative;
-  flex-direction: column;
   width: 100vw;
   height: 100vh;
 }
@@ -44,7 +43,7 @@ ul {
   width: 590px;
   list-style-type: none;
   padding: 0;
-  /* background-color: black; */
+  background-color: black;
 }
 li {
   height: 680px;
@@ -57,18 +56,14 @@ li {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
-    flex-direction: column;
-
-    height: 568px;
   }
 
   .image-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    max-height: 426px;
-    position: relative;
+    height: 568px;
+    width: 320px;
   }
 
   .image-inner {
@@ -76,154 +71,227 @@ li {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    max-height: 426px;
+    height: 568px;
+    width: 320px;
   }
 
   img {
-    max-width: 240px;
-    max-height: 426px;
+    height: 568px;
+    width: 320px;
   }
 
   li img {
-    max-width: 240px;
-    max-height: 426px;
+    height: 568px;
+    width: 320px;
   }
 
   ul {
     display: flex;
-    justify-content: center;
-    align-items: center;
     position: absolute;
-    /* overflow: hidden; */
-    max-height: 426px;
+    overflow: hidden;
+    height: 568px;
+    width: 320px;
     list-style-type: none;
     padding: 0;
-    /* background-color: black; */
+    background-color: black;
   }
   li {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 240px;
-    max-height: 426px;
+    height: 568px;
+    width: 320px;
   }
 }
 
 /* Landscape for iPhone 5/SE: */
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
-  .container {
-    width: auto;
-    max-width: 100%;
-    padding: 0 15px;
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* position: relative; */
   }
 
-  .headline-text {
-    font-size: 24px;
-    color: #364f6b;
-    margin-top: 12px;
+  .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 320px;
+    width: 568px;
   }
 
-  .row {
+  .image-inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 320px;
+    width: 568px;
+  }
+
+  img {
+    height: 320px;
+    width: 568px;
+  }
+
+  li img {
+    height: 320px;
+    width: 568px;
+  }
+
+  ul {
+    display: flex;
+    position: absolute;
+    overflow: hidden;
+    height: 320px;
+    width: 568px;
+    list-style-type: none;
+    padding: 0;
+    background-color: black;
+  }
+  li {
+    height: 320px;
     width: 568px;
   }
 }
 
-/* Portrait for iPhone 6/7/8 SE: */
+/* Portrait for iPhone 6/7/8 Plus: */
 @media only screen and (max-width: 414px) {
-  .container {
-    width: auto;
-    max-width: 414px;
-    padding: 0 15px;
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  .headline-text {
-    font-size: 24px;
-    color: #364f6b;
-    margin-top: 12px;
-  }
-
-  .row {
+  .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 736px;
     width: 414px;
   }
-}
 
-/* Landscape for iPhone 6/7/8 SE: */
-@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation: landscape) {
-  .container {
+  .image-inner {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    width: 100%;
-    /* max-width: 100%; */
-    padding: 0 15px;
+    align-items: center;
+    height: 736px;
+    width: 414px;
   }
 
-  .headline-text {
-    font-size: 24px;
-    color: #364f6b;
-    margin-top: 12px;
+  img {
+    height: 736px;
+    width: 414px;
   }
 
-  .row {
-    width: 50%;
+  li img {
+    height: 736px;
+    width: 414px;
+  }
+
+  ul {
+    display: flex;
+    position: absolute;
+    overflow: hidden;
+    height: 736px;
+    width: 414px;
+    list-style-type: none;
+    padding: 0;
+    /* background-color: black; */
+  }
+  li {
+    height: 736px;
+    width: 414px;
   }
 }
 
 /* Portrait for iPhone X: */
 @media only screen and (max-width: 375px) {
-  .container {
+  main {
     display: flex;
     justify-content: center;
-    width: auto;
-    max-width: 680px;
-    padding: 0 15px;
+    align-items: center;
   }
 
-  .headline-text {
-    font-size: 24px;
-    color: #364f6b;
-    margin-top: 12px;
+  .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 812px;
+    width: 375px;
   }
 
-  .row {
-    width: 320px;
-  }
-}
-
-/* Landscape for iPhone 10*/
-@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (orientation: landscape) {
-  .container {
-    width: auto;
-    max-width: 100%;
-    padding: 0 15px;
+  .image-inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 812px;
+    width: 375px;
   }
 
-  .headline-text {
-    font-size: 24px;
-    color: #364f6b;
-    margin-top: 12px;
-  }
-
-  .row {
+  img {
+    height: auto;
     width: 100%;
+  }
+
+  ul {
+    display: flex;
+    position: absolute;
+    overflow: hidden;
+    height: 812px;
+    width: 375px;
+    list-style-type: none;
+    padding: 0;
+    background-color: black;
+  }
+  li {
+    height: 812px;
+    width: 375px;
   }
 }
 
 /* Portrait for Pixel 2 XL: */
 @media only screen and (max-width: 411px) {
-  .container {
-    width: auto;
-    max-width: 100%;
-    padding: 0 15px;
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  .headline-text {
-    font-size: 24px;
-    color: #364f6b;
-    margin-top: 12px;
+  .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 731px;
+    width: 411px;
   }
 
-  .row {
-    width: 412px;
+  .image-inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 731px;
+    width: 411px;
+  }
+
+  img {
+    height: auto;
+    width: 100%;
+  }
+
+  ul {
+    display: flex;
+    position: absolute;
+    overflow: hidden;
+    height: 731px;
+    width: 411px;
+    list-style-type: none;
+    padding: 0;
+    background-color: black;
+  }
+  li {
+    height: 731px;
+    width: 411px;
   }
 }
