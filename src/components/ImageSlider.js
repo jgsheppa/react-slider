@@ -24,12 +24,8 @@ function useClientRect() {
 export default function ImageSlider() {
   const [rect, ref] = useClientRect();
 
-  const [state, setState] = useState({
-    isActive1: true,
-    isActive2: false,
-    isActive3: false,
-    isActive4: false,
-  });
+  let [active, setActive] = useState('0');
+  console.log(active);
 
   const [viewPort, setViewPort] = useState(590);
 
@@ -38,7 +34,7 @@ export default function ImageSlider() {
   // Update dimensions on image on resize
   useLayoutEffect(() => {
     function updateSize() {
-      setSize([window.innerWidth, window.innerHeight]);
+      setSize([window.visualViewport, window.visualViewport]);
     }
     window.addEventListener('resize', updateSize);
     updateSize();
@@ -47,6 +43,7 @@ export default function ImageSlider() {
 
   useEffect(() => {
     gsap.registerPlugin(Draggable, TweenLite);
+    console.log(rect);
 
     if (window.visualViewport.width >= 590) {
       setViewPort(590);
@@ -55,7 +52,15 @@ export default function ImageSlider() {
     }
   }, [rect, size]);
 
+  // Left direction equals -1 and right direction equals 1
   //Image transition functions
+  // const slide = (index, duration, multiplied = 1, direction) => {
+  //   TweenLite.to(rect[index], duration, {
+  //     x: direction * multiplied,
+  //     ease: Power3.easeOut,
+  //   });
+  // };
+
   const slideLeft = (index, duration, multiplied = 1) => {
     TweenLite.to(rect[index], duration, {
       x: -viewPort * multiplied,
@@ -71,13 +76,8 @@ export default function ImageSlider() {
   };
 
   const nextSlide = () => {
-    if (rect[0].id === 'active') {
-      setState({
-        isActive1: false,
-        isActive2: true,
-        isActive3: false,
-        isActive4: false,
-      });
+    if (rect[0].id === '0') {
+      setActive('1');
 
       //Image transition
       slideLeft(0, 1);
@@ -86,23 +86,23 @@ export default function ImageSlider() {
       slideLeft(2, 0);
       slideLeft(3, 1);
       slideLeft(3, 0);
-    } else if (rect[1].id === 'active') {
-      setState({ isActive3: true, isActive2: false });
+    } else if (rect[1].id === '1') {
+      setActive('2');
       //Image transition
       slideRight(0, 1, 2);
       slideLeft(1, 1, 2);
       slideLeft(2, 1, 2);
       slideLeft(3, 1, 2);
       slideLeft(3, 0, 2);
-    } else if (rect[2].id === 'active') {
-      setState({ isActive4: true, isActive3: false });
+    } else if (rect[2].id === '2') {
+      setActive('3');
       //Image transition
       slideRight(1, 1);
       slideLeft(2, 1, 3);
       slideLeft(3, 1, 3);
       slideRight(0, 0, 1);
-    } else if (rect[3].id === 'active') {
-      setState({ isActive1: true, isActive4: false });
+    } else if (rect[3].id === '3') {
+      setActive('0');
       // Image transition
       slideRight(3, 0, 3);
       slideLeft(0, 1, 0);
@@ -112,29 +112,29 @@ export default function ImageSlider() {
   };
 
   const prevSlide = () => {
-    if (rect[0].id === 'active') {
-      setState({ isActive1: false, isActive4: true });
+    if (rect[0].id === '0') {
+      setActive('3');
       //Image transition
       slideLeft(3, 0, 4);
       slideLeft(3, 1, 3);
       slideLeft(2, 0, 3);
       slideRight(0, 1);
       slideRight(1, 1);
-    } else if (rect[1].id === 'active') {
-      setState({ isActive2: false, isActive1: true });
+    } else if (rect[1].id === '1') {
+      setActive('0');
       //Image transition
       slideLeft(1, 0, 2);
       slideRight(0, 1, 0);
       slideRight(2, 1, 1);
       slideRight(3, 1, 1);
-    } else if (rect[2].id === 'active') {
-      setState({ isActive2: true, isActive3: false });
+    } else if (rect[2].id === '2') {
+      setActive('1');
       slideLeft(2, 1);
       slideLeft(1, 0, 2);
       slideLeft(1, 1);
       slideLeft(0, 0, 4);
-    } else if (rect[3].id === 'active') {
-      setState({ isActive3: true, isActive4: false });
+    } else if (rect[3].id === '3') {
+      setActive('2');
       slideRight(3, 1, 4);
       slideLeft(2, 1, 2);
       slideLeft(1, 0, 0);
@@ -168,6 +168,7 @@ export default function ImageSlider() {
             }
 
             let startX;
+            // Indicate if image is moving left or right
             let globalDirection;
 
             Draggable.create('.list-item', {
@@ -203,58 +204,24 @@ export default function ImageSlider() {
                       <div id="image-container" className="image-container">
                         <div className="image-inner">
                           <ul className="image-list" ref={ref}>
-                            <li
-                              className="list-item"
-                              id={state.isActive1 ? 'active' : ''}
-                            >
-                              <img
-                                id="product-image"
-                                alt={data.data.mediaItems.edges[0].node.alt}
-                                src={
-                                  data.data.mediaItems.edges[0].node
-                                    .mediaItemUrl
-                                }
-                              />
-                            </li>
-                            <li
-                              className="list-item"
-                              id={state.isActive2 ? 'active' : ''}
-                            >
-                              <img
-                                id="product-image"
-                                alt={data.data.mediaItems.edges[1].node.alt}
-                                src={
-                                  data.data.mediaItems.edges[1].node
-                                    .mediaItemUrl
-                                }
-                              />
-                            </li>
-                            <li
-                              className="list-item"
-                              id={state.isActive3 ? 'active' : ''}
-                            >
-                              <img
-                                id="product-image"
-                                alt={data.data.mediaItems.edges[2].node.alt}
-                                src={
-                                  data.data.mediaItems.edges[2].node
-                                    .mediaItemUrl
-                                }
-                              />
-                            </li>
-                            <li
-                              className="list-item"
-                              id={state.isActive4 ? 'active' : ''}
-                            >
-                              <img
-                                id="product-image"
-                                alt={data.data.mediaItems.edges[3].node.alt}
-                                src={
-                                  data.data.mediaItems.edges[3].node
-                                    .mediaItemUrl
-                                }
-                              />
-                            </li>
+                            {data.data.mediaItems.edges.map((image, index) => {
+                              return (
+                                <li
+                                  className="list-item"
+                                  id={
+                                    active === index.toString()
+                                      ? index.toString()
+                                      : ''
+                                  }
+                                >
+                                  <img
+                                    id="product-image"
+                                    alt={image.node.alt}
+                                    src={image.node.mediaItemUrl}
+                                  />
+                                </li>
+                              );
+                            })}
                           </ul>
                         </div>
                       </div>

@@ -6,7 +6,10 @@ import ImageSlider from './components/ImageSlider.js';
 
 // WordPress - GraphQL endpoint
 const client = new ApolloClient({
+  // For live site
   uri: 'http://sheppardimageslider.eu/graphql',
+  // For local WordPress CMS
+  // uri: 'http://localhost:8888/wordpress/graphql',
 });
 
 function App() {
