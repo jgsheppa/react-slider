@@ -24,10 +24,10 @@ function useClientRect() {
 export default function ImageSlider() {
   const [rect, ref] = useClientRect();
 
-  let [active, setActive] = useState('0');
-  console.log(active);
+  let activeTracker = 0;
+  let [active, setActive] = useState(activeTracker);
 
-  const [viewPort, setViewPort] = useState(590);
+  const [viewPort, setViewPort] = useState(window.visualViewport.width);
 
   const [size, setSize] = useState([0, 0]);
 
@@ -43,6 +43,7 @@ export default function ImageSlider() {
 
   useEffect(() => {
     gsap.registerPlugin(Draggable, TweenLite);
+
     console.log(rect);
 
     if (window.visualViewport.width >= 590) {
@@ -50,16 +51,16 @@ export default function ImageSlider() {
     } else if (window.visualViewport.width < 590) {
       setViewPort(size);
     }
-  }, [rect, size]);
+  }, [rect, size, active]);
 
   // Left direction equals -1 and right direction equals 1
-  //Image transition functions
-  // const slide = (index, duration, multiplied = 1, direction) => {
-  //   TweenLite.to(rect[index], duration, {
-  //     x: direction * multiplied,
-  //     ease: Power3.easeOut,
-  //   });
-  // };
+  // Image transition functions
+  const slide = (index, duration, multiplied = 1, direction) => {
+    TweenLite.to(rect[index], duration, {
+      x: direction * viewPort * multiplied,
+      ease: Power3.easeOut,
+    });
+  };
 
   const slideLeft = (index, duration, multiplied = 1) => {
     TweenLite.to(rect[index], duration, {
@@ -76,65 +77,73 @@ export default function ImageSlider() {
   };
 
   const nextSlide = () => {
-    if (rect[0].id === '0') {
-      setActive('1');
-
+    if (rect[0].id === active.toString()) {
+      activeTracker = active += 1;
+      setActive(activeTracker);
       //Image transition
-      slideLeft(0, 1);
-      slideLeft(1, 1);
-      slideLeft(2, 1);
-      slideLeft(2, 0);
-      slideLeft(3, 1);
-      slideLeft(3, 0);
-    } else if (rect[1].id === '1') {
-      setActive('2');
+      for (let i = 0; i < 4; i++) {
+        slide(i, 1, 1, -1);
+      }
+      slide(2, 0, 1, -1);
+      slide(3, 0, 1, -1);
+    } else if (rect[1].id === active.toString()) {
+      activeTracker = active += 1;
+      setActive(activeTracker);
       //Image transition
-      slideRight(0, 1, 2);
-      slideLeft(1, 1, 2);
-      slideLeft(2, 1, 2);
-      slideLeft(3, 1, 2);
-      slideLeft(3, 0, 2);
-    } else if (rect[2].id === '2') {
-      setActive('3');
+      slide(0, 1, 2, 1);
+      for (let i = 1; i < 4; i++) {
+        slide(i, 1, 2, -1);
+      }
+      slide(3, 0, 2, -1);
+    } else if (rect[2].id === active.toString()) {
+      activeTracker = active += 1;
+      setActive(activeTracker);
       //Image transition
-      slideRight(1, 1);
-      slideLeft(2, 1, 3);
-      slideLeft(3, 1, 3);
-      slideRight(0, 0, 1);
-    } else if (rect[3].id === '3') {
-      setActive('0');
+      slide(1, 1, 1, 1);
+      slide(2, 1, 3, -1);
+      slide(3, 1, 3, -1);
+      slide(0, 0, 1, 1);
+    } else if (rect[3].id === active.toString()) {
+      activeTracker = 0;
+      setActive(activeTracker);
       // Image transition
-      slideRight(3, 0, 3);
-      slideLeft(0, 1, 0);
-      slideLeft(1, 0, 0);
-      slideLeft(2, 0, 0);
+      slide(3, 0, 3, 1);
+      slide(0, 1, 0, -1);
+      slide(1, 0, 0, -1);
+      slide(2, 0, 0, -1);
     }
   };
 
   const prevSlide = () => {
-    if (rect[0].id === '0') {
-      setActive('3');
+    if (rect[0].id === active.toString()) {
+      activeTracker = rect.length - 1;
+      setActive(activeTracker);
       //Image transition
       slideLeft(3, 0, 4);
       slideLeft(3, 1, 3);
       slideLeft(2, 0, 3);
       slideRight(0, 1);
       slideRight(1, 1);
-    } else if (rect[1].id === '1') {
-      setActive('0');
+    } else if (rect[1].id === active.toString()) {
+      activeTracker = active -= 1;
+      setActive(activeTracker);
       //Image transition
       slideLeft(1, 0, 2);
       slideRight(0, 1, 0);
       slideRight(2, 1, 1);
       slideRight(3, 1, 1);
-    } else if (rect[2].id === '2') {
-      setActive('1');
+    } else if (rect[2].id === active.toString()) {
+      activeTracker = active -= 1;
+      setActive(activeTracker);
+      // setActive('1');
       slideLeft(2, 1);
       slideLeft(1, 0, 2);
       slideLeft(1, 1);
       slideLeft(0, 0, 4);
-    } else if (rect[3].id === '3') {
-      setActive('2');
+    } else if (rect[3].id === active.toString()) {
+      activeTracker = active -= 1;
+      setActive(activeTracker);
+      // setActive('2');
       slideRight(3, 1, 4);
       slideLeft(2, 1, 2);
       slideLeft(1, 0, 0);
@@ -194,6 +203,7 @@ export default function ImageSlider() {
                   nextSlide();
                 }
               },
+              liveSnap: false,
             });
 
             return (
@@ -205,14 +215,11 @@ export default function ImageSlider() {
                         <div className="image-inner">
                           <ul className="image-list" ref={ref}>
                             {data.data.mediaItems.edges.map((image, index) => {
+                              console.log(index);
                               return (
                                 <li
                                   className="list-item"
-                                  id={
-                                    active === index.toString()
-                                      ? index.toString()
-                                      : ''
-                                  }
+                                  id={active === index ? active.toString() : ''}
                                 >
                                   <img
                                     id="product-image"
